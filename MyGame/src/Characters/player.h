@@ -21,9 +21,9 @@ public:
 
 private:
     std::string m_TextureID;
+    Direction m_Direction;
     Animation* m_Animation;
     RigidBody* m_RigidBody;
-    Direction m_Direction;
 };
 
 

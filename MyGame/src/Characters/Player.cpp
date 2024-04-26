@@ -29,7 +29,6 @@ void Player::Update(float dt)
     m_RigidBody->ApplyForceY(m_RigidBody->Acceleration().y);
     Player::Moviment();
     m_RigidBody->Update(dt, m_Position);
-    // m_Position += m_RigidBody->Position();
     m_Animation->Update();
 }
 
