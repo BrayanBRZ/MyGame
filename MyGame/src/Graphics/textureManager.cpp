@@ -29,15 +29,15 @@ bool TextureManager::Load(std::string id, std::string filename)
 
 void TextureManager::Draw(std::string id, float x, float y, int width, int heigth)
 {
-    SDL_Rect srcRect = {0, 0, (int)(width * UNIT_TO_PIXELS), (int)(heigth * UNIT_TO_PIXELS)};
-    SDL_Rect dstRect = {(int)(x * UNIT_TO_PIXELS), (int)(y * UNIT_TO_PIXELS), (int)(width * UNIT_TO_PIXELS), (int)(heigth * UNIT_TO_PIXELS)};
+    SDL_Rect srcRect = {0, 0, (int)(width), (int)(heigth)};
+    SDL_Rect dstRect = {(int)(x), (int)(y), (int)(width), (int)(heigth)};
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[id], &srcRect, &dstRect, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void TextureManager::DrawFrame(std::string id, float x, float y, float objectWidth, float objectHeigth, float spriteWidth, float spriteHeigth, int row, int frame)
 {
-    SDL_Rect srcRect = {(int)((spriteWidth * frame) * UNIT_TO_PIXELS), (int)((spriteHeigth * (row - 1)) * UNIT_TO_PIXELS), (int)(spriteWidth * UNIT_TO_PIXELS), (int)(spriteHeigth * UNIT_TO_PIXELS)};
-    SDL_Rect dstRect = {(int)(x * UNIT_TO_PIXELS), (int)(y * UNIT_TO_PIXELS), (int)(objectWidth * UNIT_TO_PIXELS), (int)(objectHeigth * UNIT_TO_PIXELS)};
+    SDL_Rect srcRect = {(int)((spriteWidth * frame)), (int)((spriteHeigth * (row - 1))), (int)(spriteWidth), (int)(spriteHeigth)};
+    SDL_Rect dstRect = {(int)(x), (int)(y), (int)(objectWidth), (int)(objectHeigth)};
     SDL_RenderCopyEx(Engine::GetInstance()->GetRenderer(), m_TextureMap[id], &srcRect, &dstRect, 0, nullptr, SDL_FLIP_NONE);
 }
 

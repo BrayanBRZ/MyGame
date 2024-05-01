@@ -3,9 +3,11 @@
 #include "..\Events\Event.h"
 #include "..\Timer\timer.h"
 #include "..\Characters\Player.h"
+#include "..\Map\TileMap.h"
 
 Engine* Engine::s_Instance = nullptr;
 Player* player = nullptr;
+Map* map = nullptr;
 
 bool Engine::Init()
 {   
@@ -14,9 +16,9 @@ bool Engine::Init()
         return false;
     }
 
-    SDL_Log("CARREGOU A SDL");
+    SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
-    m_Window = SDL_CreateWindow("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEEN_WIDTH, SCREEN_HEIGHT, 0);
+    m_Window = SDL_CreateWindow("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEEN_WIDTH, SCREEN_HEIGHT, window_flags);
     if(m_Window == nullptr) {
         SDL_Log("Failed to create window. Error: %s", SDL_GetError());
         return false;
@@ -28,9 +30,11 @@ bool Engine::Init()
         return false;
     }
 
-    TextureManager::GetInstance()->Load("player", "../assets/Player/red.png");
-
+    TextureManager::GetInstance()->Load("player", "../assets/player/red.png");
     player = new Player(Properties(0, 0, 128, 128), "player");
+
+    TextureManager::GetInstance()->Load("map", "../assets/maps/basic-terrain.png");
+    map = new Map();
 
     return m_isRunning = true;
 }
@@ -45,7 +49,7 @@ void Engine::Render()
 {
     SDL_SetRenderDrawColor(m_Renderer, 124, 218, 254, 255);
     SDL_RenderClear(m_Renderer);
-
+    map->Render();
     player->Draw();
     SDL_RenderPresent(m_Renderer);
 }

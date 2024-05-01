@@ -22,8 +22,8 @@ public:
     // string_view
 
     void Draw(std::string id, float x, float y, int widht, int height);
-    void DrawFrame(std::string id, float x, float y, float objectWidth, float objectHeigth, float spriteWidth, float spriteHeigth, int row, int frame   );
-    
+    void DrawFrame(std::string id, float x, float y, float objectWidth, float objectHeigth, float spriteWidth, float spriteHeigth, int row, int frame);
+
     void CleanTexture();
 
 private:
