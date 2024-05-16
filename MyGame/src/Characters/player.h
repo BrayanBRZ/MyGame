@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include "Character.h"
+#include "..\Graphics\TextureManager.h"
 #include "..\Animations\Animation.h"
 #include "..\Physics\RigidBody.h"
 
@@ -12,7 +13,7 @@ enum Direction { STAND_BY, Direction_UP, Direction_DOWN, Direction_LEFT, Directi
 class Player: public Character
 {
 public:
-    Player(const Properties& props, std::string TextureID);
+    Player(const Properties& props);
     ~Player();
     
     virtual void Draw() override;
@@ -20,7 +21,7 @@ public:
     void Moviment();
 
 private:
-    std::string m_TextureID;
+    textureID m_TextureID;
     Direction m_Direction;
     Animation* m_Animation;
     RigidBody* m_RigidBody;

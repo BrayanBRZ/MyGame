@@ -2,18 +2,11 @@
 #define __RIGIDBODY_H__
 
 #include "../Object/gameObject.h"
+#include "../Global/GlobalProperties.h"
+
 #include <my-lib/math-vector.h>
 
 using Vector = Mylib::Math::Vector<float, 2>;
-
-inline constexpr float UNI_MASS = 1.0f;
-inline constexpr float FRICTION = 0.8f;
-
-inline constexpr int UPWARD = -1;
-inline constexpr int DOWNWARD = 1;
-
-inline constexpr int RIGHTWARD = 1;
-inline constexpr int LEFTWARD = -1;
 
 class RigidBody
 {
@@ -24,7 +17,7 @@ public:
 
     // Setters
     inline void SetMass(float mass) { m_Mass = mass; }
-    inline void SetFriction(double Fr) { m_Friction = Fr; }
+    inline void SetFriction(float Fr) { m_Friction = Fr; }
 
     // Force
     inline void ApplyForce(Vector F) { m_Force = F; }
@@ -47,8 +40,8 @@ public:
     }
 
 private:
-    float m_Mass { UNI_MASS };
-    float m_Friction { FRICTION };
+    float m_Mass { DEFAULT_MASS };
+    float m_Friction { DEFAULT_FRICTION };
 
     Vector m_Velocity {};
     Vector m_Acceleration {};

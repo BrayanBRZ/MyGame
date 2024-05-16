@@ -3,26 +3,29 @@
 
 #include <SDL.h>
 #include <string>
-#include <map>
+#include <list>
 #include <string_view>
+
+struct textureID
+{
+    std::list<SDL_Texture *>::iterator it;
+};
 
 class TextureManager
 {
 public:
-    std::map<std::string, SDL_Texture *> m_TextureMap;
+    std::list<SDL_Texture *> m_TextureList;
 
 public:
     static TextureManager *GetInstance() { return s_Instance = (s_Instance != nullptr) ? s_Instance : new TextureManager(); }
     ~TextureManager();
 
-    bool Load(std::string id, std::string filename);
-    void Drop(std::string id);
+    textureID Load(std::string filename);
+    void Drop(textureID id);
 
-    SDL_Texture *FindTexture(std::string id);
-    // string_view
-
-    void Draw(std::string id, float x, float y, int widht, int height);
-    void DrawFrame(std::string id, float x, float y, float objectWidth, float objectHeigth, float spriteWidth, float spriteHeigth, int row, int frame);
+    void Draw(textureID id, int x, int y, float width, float height, SDL_RendererFlip flip);
+    void DrawTile(textureID tilesetID, int tileSize, int x, int y, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawFrame(textureID id, int x, int y, float objectWidth, float objectHeight, float spriteWidth, float spriteHeight, int row, int frame, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
     void CleanTexture();
 
