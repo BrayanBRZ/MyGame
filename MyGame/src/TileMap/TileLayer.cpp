@@ -1,7 +1,6 @@
 #include "TileLayer.h"
 #include <iostream>
 
-
 TileLayer::TileLayer(int tilesize, int rowcount, int colcount, TileMap tilemap, TilesetList tilesets)
 {
     m_TileSize = tilesize;
@@ -10,14 +9,13 @@ TileLayer::TileLayer(int tilesize, int rowcount, int colcount, TileMap tilemap, 
     m_TileMap = tilemap;
     m_Tilesets = tilesets;
 
-
     for (unsigned int i = 0; i < m_Tilesets.size(); i++)
     {
         m_TextureID = TextureManager::GetInstance()->Load("../assets/maps/" + m_Tilesets[i].Source);
     }
 }
 
-void TileLayer::Render()
+void TileLayer::Render(const Vector& position)
 {
     for (unsigned int i = 0; i < m_RowCount; i++)
     {
@@ -46,12 +44,14 @@ void TileLayer::Render()
                 int tileRow = adjustedTileID / ts.ColCount;
                 int tileCol = adjustedTileID % ts.ColCount;
                 
-                TextureManager::GetInstance()->DrawTile(m_TextureID, ts.TileSize, j * ts.TileSize, i * ts.TileSize, tileRow, tileCol);
+                // Ajusta a posição do desenho pela posição do mapa
+                int drawX = j * ts.TileSize;// + position[0];
+                int drawY = i * ts.TileSize;// + position[1];
+                TextureManager::GetInstance()->DrawTile(m_TextureID, ts.TileSize, drawX, drawY, tileRow, tileCol);
             }
         }
     }
 }
-
 
 void TileLayer::Update()
 {

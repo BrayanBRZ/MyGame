@@ -260,6 +260,16 @@ public:
 			this->data[i] = 0;
 	}
 
+	// Método isZero()
+    constexpr bool isZero() const noexcept {
+        for (uint32_t i = 0; i < dim; i++) {
+            if (this->data[i] != static_cast<Type>(0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+	
 	static consteval Vector zero () noexcept
 	{
 		Vector v;

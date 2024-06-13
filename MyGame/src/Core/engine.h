@@ -3,10 +3,8 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include "..\Global\GlobalProperties.h"
 #include "..\TileMap\GameMap.h"
-
-#define SCREEEN_WIDTH 960
-#define SCREEN_HEIGHT 640
 
 class Engine
 {

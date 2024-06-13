@@ -23,7 +23,7 @@ public:
     TileLayer(int tilesize, int rowcount, int colcount, TileMap tilemap, TilesetList tilesets);
     virtual ~TileLayer() = default;
 
-    virtual void Render();
+    virtual void Render(const Vector& position);
     virtual void Update();
     inline TileMap GetTileMap() { return m_TileMap; }
 

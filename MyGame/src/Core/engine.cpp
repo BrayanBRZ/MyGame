@@ -5,6 +5,7 @@
 #include "..\Characters\Player.h"
 #include "..\TileMap\MapParser.h"
 #include <iostream>
+#include "..\Camera\Camera.h"
 
 Engine *Engine::s_Instance = nullptr;
 Player *player = nullptr;
@@ -19,7 +20,7 @@ bool Engine::Init()
 
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
-    m_Window = SDL_CreateWindow("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEEN_WIDTH, SCREEN_HEIGHT, window_flags);
+    m_Window = SDL_CreateWindow("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, window_flags);
     if (m_Window == nullptr)
     {
         SDL_Log("Failed to create window. Error: %s", SDL_GetError());
@@ -33,14 +34,23 @@ bool Engine::Init()
         return false;
     }
 
-    if (!MapParser::GetInstance()->Load())
+    if (!MapParser::GetInstance()->Load("C:/msys64/home/braya/SDLtemplate/MyGame/assets/maps/map-rednew.tmx"))
     {
         std::cout << "Failed to Load Map" << '\n';
     }
 
-    m_LevelMap = MapParser::GetInstance()->GetMap("MAP");
+    m_LevelMap = MapParser::GetInstance()->GetMap("MAP", 0, 0);
 
     player = new Player(Properties{.Width = 2, .Heigth = 2, .X = 0, .Y = 0});
+    if (!player)
+    {
+        std::cout << "Failed to create player" << '\n';
+        return false;
+    }
+
+    Camera::GetInstance()->SetTarget(player->GetOrigin());
+    Camera::GetInstance()->SetLimitPosition(m_LevelMap->GetMapPosition());
+    Camera::GetInstance()->SetLimitDimension(m_LevelMap->GetMapDimension());
 
     return m_isRunning = true;
 }
@@ -50,6 +60,7 @@ void Engine::Update()
     float dt = Timer::GetInstance()->GetDeltaTime();
     m_LevelMap->Update();
     player->Update(dt);
+    Camera::GetInstance()->Update(dt);
 }
 
 void Engine::Render()
